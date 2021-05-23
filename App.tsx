@@ -3,8 +3,6 @@ import React, {FC, useState} from 'react';
 import {SafeAreaView, StyleSheet, useColorScheme, Alert} from 'react-native';
 
 import uuid from 'react-native-uuid';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import GoalInput from './components/GoalInput';
 import Goals from './components/Goals/Goals';
 import Header from './components/Header';
@@ -13,9 +11,6 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [goalValue, setGoalValue] = useState<string>('');
   const [allGoals, setAllGoals] = useState<any[]>([]);
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   const addGoal = () => {
     if (goalValue.trim()) {
@@ -24,7 +19,7 @@ const App = () => {
     } else {
       Alert.alert(
         'Warning',
-        "Goal titles mustn't be empty",
+        "Goal title mustn't be empty",
         [
           {
             text: 'OK',
