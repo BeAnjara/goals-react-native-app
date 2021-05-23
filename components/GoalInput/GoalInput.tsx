@@ -12,7 +12,7 @@ const GoalInput: FC<GoalInputProps> = props => {
   return (
     <View style={styles.addGoal}>
       <TextInput
-        placeholder="Add Goal"
+        placeholder="Add new goal"
         value={goalValue}
         onChangeText={(text: string) => {
           setGoalValue(text);
@@ -21,6 +21,7 @@ const GoalInput: FC<GoalInputProps> = props => {
           flex: 1,
           borderColor: 'black',
           borderWidth: 1,
+          padding: 10,
         }}
       />
       <Button title="Add" onPress={addGoal} />

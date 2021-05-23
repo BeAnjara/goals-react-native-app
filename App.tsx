@@ -1,12 +1,13 @@
 // @refresh reset
 import React, {FC, useState} from 'react';
-import {SafeAreaView, StyleSheet, useColorScheme, View} from 'react-native';
+import {SafeAreaView, StyleSheet, useColorScheme, Alert} from 'react-native';
 
 import uuid from 'react-native-uuid';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import GoalInput from './components/GoalInput';
 import Goals from './components/Goals/Goals';
+import Header from './components/Header';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -17,27 +18,61 @@ const App = () => {
   };
 
   const addGoal = () => {
-    setAllGoals(allGoals => [...allGoals, {id: uuid.v4(), value: goalValue}]);
-    setGoalValue('');
+    if (goalValue.trim()) {
+      setAllGoals(allGoals => [{id: uuid.v4(), value: goalValue}, ...allGoals]);
+      setGoalValue('');
+    } else {
+      Alert.alert(
+        'Warning',
+        "Goal titles mustn't be empty",
+        [
+          {
+            text: 'OK',
+          },
+        ],
+        {cancelable: true},
+      );
+    }
+  };
+
+  const deleteGoal = (goalId: string) => {
+    Alert.alert(
+      'Confirm',
+      'Are you sure',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () =>
+            setAllGoals(prevAllGoals => {
+              return prevAllGoals.filter(goal => goal.id !== goalId);
+            }),
+        },
+      ],
+      {cancelable: true},
+    );
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <View>
-        <GoalInput
-          addGoal={addGoal}
-          goalValue={goalValue}
-          setGoalValue={setGoalValue}
-        />
-        <Goals goals={allGoals} />
-      </View>
+    <SafeAreaView style={styles.container}>
+      <Header />
+      <GoalInput
+        addGoal={addGoal}
+        goalValue={goalValue}
+        setGoalValue={setGoalValue}
+      />
+      <Goals goals={allGoals} deleteGoal={deleteGoal} />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flex: 1,
+    backgroundColor: '#fafbfc',
   },
 });
 

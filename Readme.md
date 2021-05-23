@@ -1,3 +1,3 @@
 ### First React Native App
 
-# Test some input on react
+# Test some input on reactgit
